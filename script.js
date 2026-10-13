@@ -9,6 +9,7 @@ const watchlist = {
   movies: [{ title: "The Princess Bride", genre: "Adventure", watched: false }],
   toggleWatched(index) {
     this.movies[index].watched = !this.movies[index].watched;
+    console.log(this.movies[index].watched)
   },
   removeMovie(index) {
     this.movies.splice(index, 1);
@@ -32,12 +33,13 @@ function renderMovies() {
     title.textContent = movie.title;
 
     const details = document.createElement("p");
-    details.textContent = watchlist.movies.genre + " | " + watchlist.movies.watched
+    details.textContent = movie.genre + " | "
+    details.textContent += movie.watched ? "Watched" : "Not Watched"
     console.log(details.textContent)
 
     const toggleButton = document.createElement("button");
     toggleButton.type = "button";
-    if (watchlist.movies.watched = false)
+    if (movie.watched == false)
     {
       toggleButton.textContent = "Mark Watched"
     } else {
@@ -69,7 +71,21 @@ function renderMovies() {
 }
 
 form.addEventListener("submit", (event) => {
-  // TODO (Step 5)
+  event.preventDefault()
+  const titleInpit0 = titleInput.value
+  const titleInp = titleInpit0.trim()
+  const genreSel = genreSelect.value
+
+  if (titleInp = "") {
+    return emptyMessage.textContent = "Enter a movie title"
+  }
+   else if (genreSel = "") {
+    return emptyMessage.textContent = "Choose a genre"
+    
+  } else {
+    watchlist.movies.push(`{title: ${titleInp}, genre: ${genreSel}, watched:false}`)
+
+  }
 });
 
 loadMovies();
