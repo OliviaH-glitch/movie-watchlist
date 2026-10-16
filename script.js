@@ -6,22 +6,33 @@ const movieList = document.getElementById("movie-list");
 const emptyMessage = document.getElementById("empty-message");
 
 const watchlist = {
-  movies: [{ title: "The Princess Bride", genre: "Adventure", watched: false }],
+  movies:[{ title: "The Princess Bride", genre: "Adventure", watched: false }],
   toggleWatched(index) {
     this.movies[index].watched = !this.movies[index].watched;
-    console.log(this.movies[index].watched)
+
   },
   removeMovie(index) {
     this.movies.splice(index, 1);
   }
 };
 
+
 function saveMovies() {
-  // TODO (Step 6)
+  localStorage.setItem("movies", JSON.stringify(watchlist.movies));
 }
 
 function loadMovies() {
-  // TODO (Step 6)
+  saved = localStorage.getItem("movies")
+  if (saved = null) {
+  return
+  } 
+
+  try {
+    JSON.parse(saved) = watchlist.movies
+  } catch {
+  
+  }
+
 }
 
 function renderMovies() {
@@ -39,12 +50,9 @@ function renderMovies() {
 
     const toggleButton = document.createElement("button");
     toggleButton.type = "button";
-    if (movie.watched == false)
-    {
-      toggleButton.textContent = "Mark Watched"
-    } else {
-      toggleButton.textContent = "Mark Unwatched"
-    }
+
+      toggleButton.textContent = movie.watched ? "Mark Watched" : "Unwatched"
+
     toggleButton.addEventListener("click", () => {
       watchlist.toggleWatched(index);
       saveMovies();
@@ -76,15 +84,16 @@ form.addEventListener("submit", (event) => {
   const titleInp = titleInpit0.trim()
   const genreSel = genreSelect.value
 
-  if (titleInp = "") {
+  if (titleInp == "") {
     return emptyMessage.textContent = "Enter a movie title"
   }
-   else if (genreSel = "") {
+   else if (genreSel == "") {
     return emptyMessage.textContent = "Choose a genre"
     
   } else {
-    watchlist.movies.push(`{title: ${titleInp}, genre: ${genreSel}, watched:false}`)
-
+    watchlist.movies.push({title: `${titleInp}`, genre: `${genreSel}`, watched:`false`})
+    renderMovies()
+    saveMovies()
   }
 });
 
